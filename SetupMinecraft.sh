@@ -51,20 +51,9 @@ sudo apt-get install openssl -y
 
 # Check to see if Minecraft server main directory already exists
 cd ~
-if [ ! -d "minecraftbe" ]; then
-  mkdir minecraftbe
-  cd minecraftbe
-else
-  cd minecraftbe
-  if [ -f "bedrock_server" ]; then
-    echo "Migrating old Bedrock server to minecraftbe/old"
-    cd ~
-    mv minecraftbe old
-    mkdir minecraftbe
-    mv old minecraftbe/old
-    cd minecraftbe
-    echo "Migration complete to minecraftbe/old"
-  fi
+if [ ! -d "mcsrv" ]; then
+  mkdir mcsrv
+  cd mcsrv
 fi
 
 # Server name configuration
@@ -80,43 +69,43 @@ echo "Enter server IPV6 port (default 19133): "
 read_with_prompt PortIPV6 "Server IPV6 Port" 19133
 
 if [ -d "$ServerName" ]; then
-  echo "Directory minecraftbe/$ServerName already exists!  Updating scripts and configuring service ..."
+  echo "Directory mcsrv/$ServerName already exists!  Updating scripts and configuring service ..."
 
   # Get Home directory path and username
   DirName=$(readlink -e ~)
   UserName=$(whoami)
   cd ~
-  cd minecraftbe
+  cd mcsrv
   cd $ServerName
-  echo "Server directory is: $DirName/minecraftbe/$ServerName"
+  echo "Server directory is: $DirName/mcsrv/$ServerName"
 
   # Remove existing scripts
   rm start.sh stop.sh restart.sh
 
   # Download start.sh from repository
   echo "Grabbing start.sh from repository..."
-  wget -O start.sh https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/start.sh
+  wget -O start.sh https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/start.sh
   chmod +x start.sh
   sed -i "s:dirname:$DirName:g" start.sh
   sed -i "s:servername:$ServerName:g" start.sh
 
   # Download stop.sh from repository
   echo "Grabbing stop.sh from repository..."
-  wget -O stop.sh https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/stop.sh
+  wget -O stop.sh https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/stop.sh
   chmod +x stop.sh
   sed -i "s:dirname:$DirName:g" stop.sh
   sed -i "s:servername:$ServerName:g" stop.sh
 
   # Download restart.sh from repository
   echo "Grabbing restart.sh from repository..."
-  wget -O restart.sh https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/restart.sh
+  wget -O restart.sh https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/restart.sh
   chmod +x restart.sh
   sed -i "s:dirname:$DirName:g" restart.sh
   sed -i "s:servername:$ServerName:g" restart.sh
 
   # Update minecraft server service
   echo "Configuring $ServerName service..."
-  sudo wget -O /etc/systemd/system/$ServerName.service https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/minecraftbe.service
+  sudo wget -O /etc/systemd/system/$ServerName.service https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/minecraftbe.service
   sudo chmod +x /etc/systemd/system/$ServerName.service
   sudo sed -i "s/replace/$UserName/g" /etc/systemd/system/$ServerName.service
   sudo sed -i "s:dirname:$DirName:g" /etc/systemd/system/$ServerName.service
@@ -133,7 +122,7 @@ if [ -d "$ServerName" ]; then
     echo -n "Automatically restart and backup server at 4am daily (y/n)?"
     read answer < /dev/tty
     if [ "$answer" != "${answer#[Yy]}" ]; then
-      croncmd="$DirName/minecraftbe/$ServerName/restart.sh"
+      croncmd="$DirName/mcsrv/$ServerName/restart.sh"
       cronjob="0 4 * * * $croncmd"
       ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
       echo "Daily restart scheduled.  To change time or remove automatic restart type crontab -e"
@@ -153,9 +142,9 @@ if [ -d "$ServerName" ]; then
 fi
 
 # Create server directory
-echo "Creating minecraft server directory (~/minecraftbe/$ServerName)..."
+echo "Creating minecraft server directory (~/mcsrv/$ServerName)..."
 cd ~
-cd minecraftbe
+cd mcsrv
 mkdir $ServerName
 cd $ServerName
 mkdir downloads
@@ -219,28 +208,28 @@ unzip -o "downloads/$DownloadFile"
 
 # Download start.sh from repository
 echo "Grabbing start.sh from repository..."
-wget -O start.sh https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/start.sh
+wget -O start.sh https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/start.sh
 chmod +x start.sh
 sed -i "s:dirname:$DirName:g" start.sh
 sed -i "s:servername:$ServerName:g" start.sh
 
 # Download stop.sh from repository
 echo "Grabbing stop.sh from repository..."
-wget -O stop.sh https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/stop.sh
+wget -O stop.sh https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/stop.sh
 chmod +x stop.sh
 sed -i "s:dirname:$DirName:g" stop.sh
 sed -i "s:servername:$ServerName:g" stop.sh
 
 # Download restart.sh from repository
 echo "Grabbing restart.sh from repository..."
-wget -O restart.sh https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/restart.sh
+wget -O restart.sh https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/restart.sh
 chmod +x restart.sh
 sed -i "s:dirname:$DirName:g" restart.sh
 sed -i "s:servername:$ServerName:g" restart.sh
 
 # Service configuration
 echo "Configuring Minecraft $ServerName service..."
-sudo wget -O /etc/systemd/system/$ServerName.service https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/minecraftbe.service
+sudo wget -O /etc/systemd/system/$ServerName.service https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/minecraftbe.service
 sudo chmod +x /etc/systemd/system/$ServerName.service
 sudo sed -i "s/replace/$UserName/g" /etc/systemd/system/$ServerName.service
 sudo sed -i "s:dirname:$DirName:g" /etc/systemd/system/$ServerName.service
@@ -262,7 +251,7 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
   echo -n "Automatically restart and backup server at 4am daily (y/n)?"
   read answer < /dev/tty
   if [ "$answer" != "${answer#[Yy]}" ]; then
-    croncmd="$DirName/minecraftbe/$ServerName/restart.sh"
+    croncmd="$DirName/mcsrv/$ServerName/restart.sh"
     cronjob="0 4 * * * $croncmd"
     ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
     echo "Daily restart scheduled.  To change time or remove automatic restart type crontab -e"
