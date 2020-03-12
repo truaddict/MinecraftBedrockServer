@@ -3,14 +3,14 @@
 #
 # Instructions: https://jamesachambers.com/minecraft-bedrock-edition-ubuntu-dedicated-server-guide/
 # To run the setup script use:
-# wget https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/SetupMinecraft.sh
+# wget https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/SetupMinecraft.sh
 # chmod +x SetupMinecraft.sh
 # ./SetupMinecraft.sh
 #
-# GitHub Repository: https://github.com/TheRemote/MinecraftBedrockServer
+# GitHub Repository: https://github.com/truaddict/MinecraftBedrockServer
 
-echo "Minecraft Bedrock Server installation script by James Chambers - July 24th 2019"
-echo "Latest version always at https://github.com/TheRemote/MinecraftBedrockServer"
+echo "Forked version of Minecraft Bedrock Server installation script by James Chambers - July 24th 2019"
+echo "Latest version always at https://github.com/truaddict/MinecraftBedrockServer"
 echo "Don't forget to set up port forwarding on your router!  The default port is 19132"
 
 # Function to read input from user with a prompt
@@ -184,11 +184,11 @@ if [[ "$CPUArch" == *"aarch"* || "$CPUArch" == *"arm"* ]]; then
   fi
   
   # Retrieve depends.zip from GitHub repository
-  wget -O depends.zip https://raw.githubusercontent.com/TheRemote/MinecraftBedrockServer/master/depends.zip
+  wget -O depends.zip https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/depends.zip
   unzip depends.zip
   sudo mkdir /lib64
   # Create soft link ld-linux-x86-64.so.2 mapped to ld-2.28.so
-  sudo ln -s ~/minecraftbe/$ServerName/ld-2.28.so /lib64/ld-linux-x86-64.so.2
+  sudo ln -s ~/mcsrv/$ServerName/ld-2.28.so /lib64/ld-linux-x86-64.so.2
 fi
 
 # Retrieve latest version of Minecraft Bedrock dedicated server
