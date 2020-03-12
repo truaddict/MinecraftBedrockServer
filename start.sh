@@ -23,7 +23,7 @@ while [ -z "$DefaultRoute" ]; do
 done
 
 # Change directory to server directory
-cd dirname/minecraftbe/servername
+cd dirname/mcsrv/servername
 
 # Create backup
 if [ -d "worlds" ]; then
@@ -57,4 +57,4 @@ fi
 
 echo "Starting Minecraft server.  To view window type screen -r servername"
 echo "To minimize the window and let the server run in the background, press Ctrl+A then Ctrl+D"
-screen -dmS servername /bin/bash -c "LD_LIBRARY_PATH=dirname/minecraftbe/servername dirname/minecraftbe/servername/bedrock_server"
+screen -dmS servername /bin/bash -c "LD_LIBRARY_PATH=dirname/mcsrv/servername dirname/mcsrv/servername/bedrock_server"
