@@ -49,4 +49,4 @@ if screen -list | grep -q "servername"; then
 fi
 
 # Start server
-/bin/bash dirname/minecraftbe/servername/start.sh
+/bin/bash dirname/mcsrv/servername/start.sh
