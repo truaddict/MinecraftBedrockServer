@@ -27,7 +27,7 @@ cd dirname/mcsrv/servername
 
 # Create backup
 if [ -d "worlds" ]; then
-    echo "Backing up server (to minecraftbe/servername/backups folder)"
+    echo "Backing up server (to mcsrv/servername/backups folder)"
     tar -pzvcf backups/$(date +%Y.%m.%d.%H.%M.%S).tar.gz worlds
 fi
 
