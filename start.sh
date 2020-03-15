@@ -26,7 +26,7 @@ done
 cd dirname/mcsrv/servername
 
 # Create backup
-if [ -d "worlds" ]; then
+if [ -d "worlds" ] && [ "$1" = "backup" ]; then
     echo "Backing up server (to mcsrv/servername/backups folder)"
     tar -pzvcf backups/$(date +%Y.%m.%d.%H.%M.%S).tar.gz worlds
 fi
@@ -57,4 +57,4 @@ fi
 
 echo "Starting Minecraft server.  To view window type screen -r servername"
 echo "To minimize the window and let the server run in the background, press Ctrl+A then Ctrl+D"
-screen -dmS servername /bin/bash -c "LD_LIBRARY_PATH=dirname/mcsrv/servername dirname/mcsrv/servername/bedrock_server"
+screen -L -Logfile logs/$(date +%Y.%m.%d.%H.%M.%S).log -dmS servername dirname/mcsrv/servername/watchdog.sh
