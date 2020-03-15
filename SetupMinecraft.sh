@@ -102,6 +102,13 @@ if [ -d "$ServerName" ]; then
   chmod +x restart.sh
   sed -i "s:dirname:$DirName:g" restart.sh
   sed -i "s:servername:$ServerName:g" restart.sh
+  
+  # Download watchdog.sh from repository
+  echo "Grabbing watchdog.sh from repository..."
+  wget -O watchdog.sh https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/watchdog.sh
+  chmod +x watchdog.sh
+  sed -i "s:dirname:$DirName:g" watchdog.sh
+  sed -i "s:servername:$ServerName:g" watchdog.sh
 
   # Update minecraft server service
   echo "Configuring $ServerName service..."
@@ -226,6 +233,13 @@ wget -O restart.sh https://raw.githubusercontent.com/truaddict/MinecraftBedrockS
 chmod +x restart.sh
 sed -i "s:dirname:$DirName:g" restart.sh
 sed -i "s:servername:$ServerName:g" restart.sh
+
+# Download watchdog.sh from repository
+echo "Grabbing watchdog.sh from repository..."
+wget -O watchdog.sh https://raw.githubusercontent.com/truaddict/MinecraftBedrockServer/master/watchdog.sh
+chmod +x watchdog.sh
+sed -i "s:dirname:$DirName:g" watchdog.sh
+sed -i "s:servername:$ServerName:g" watchdog.sh
 
 # Service configuration
 echo "Configuring Minecraft $ServerName service..."
