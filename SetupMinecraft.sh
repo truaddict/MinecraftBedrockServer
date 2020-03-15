@@ -129,7 +129,7 @@ if [ -d "$ServerName" ]; then
     echo -n "Automatically restart and backup server at 4am daily (y/n)?"
     read answer < /dev/tty
     if [ "$answer" != "${answer#[Yy]}" ]; then
-      croncmd="$DirName/mcsrv/$ServerName/restart.sh"
+      croncmd="$DirName/mcsrv/$ServerName/restart.sh backup"
       cronjob="0 4 * * * $croncmd"
       ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
       echo "Daily restart scheduled.  To change time or remove automatic restart type crontab -e"
@@ -156,6 +156,7 @@ mkdir $ServerName
 cd $ServerName
 mkdir downloads
 mkdir backups
+mkdir logs
 
 # Check CPU archtecture to see if we need to do anything special for the platform the server is running on
 echo "Getting system CPU architecture..."
